@@ -13,7 +13,7 @@ f = @(h) rho_w*g*( 4/3*pi*r^3 - (pi*h^2)/3*(3*r-h) ) - W;
 
 % Define recursive method
 function root = lin_interp(f,x1,x2,tol)
-	xm = x1 - (f(x1)  *(x1-x2))/(f(x1)  -f(x2));
+	xm = x1 - (f(x1)*(x1-x2))/(f(x1)-f(x2));
 
 	% Conditionals
 	if abs(xm-x1)<tol || abs(xm-x2)<tol
