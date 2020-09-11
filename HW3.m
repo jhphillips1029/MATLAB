@@ -69,4 +69,7 @@ figure(2);
 plot(t_p,v_p);
 legend('Experimental','Analytic','Numeric');
 
+saveas(figure(1),'images/Eraser.png');
+saveas(figure(2),'images/Paper.png');
+
 wait = input("Press Enter to continue");
