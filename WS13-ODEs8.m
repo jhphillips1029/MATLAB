@@ -44,7 +44,17 @@ end
 u = inv(A)*B;
 
 x = linspace(0,L,N);
-plot(x,u,'DisplayName','Numerical');
+plot(x,u,'-*','DisplayName','Numerical');
+hold on;
+
+C1 = ( T2-Ta+(Ta-T1)*e^(-L*k^0.5) )/( e^(L*k^0.5) - e^(-L*k^0.5) );
+C2 = T1-C1-Ta;
+f_anal = @(x) C1*exp(x*sqrt(k)) + C2*exp(-x*sqrt(k)) + Ta;
+T_anal = f_anal(x);
+plot(x,T_anal,'DisplayName','Analytic')
+
+legend();
+
 drawnow;
 
 wait = input("Press Enter to Exit.");
