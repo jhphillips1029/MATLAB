@@ -56,5 +56,6 @@ plot(x,T_anal,'DisplayName','Analytic')
 legend();
 
 drawnow;
+saveas(gcf,'images/ODEs8.png');
 
 wait = input("Press Enter to Exit.");
