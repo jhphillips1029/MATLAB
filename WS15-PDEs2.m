@@ -106,4 +106,6 @@ end
 quiver(x,y,u,v,'k');
 drawnow;
 
+saveas(gcf,"WS15.png");
+
 wait = input("Press Enter to Exit.");
