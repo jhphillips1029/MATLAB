@@ -52,5 +52,6 @@ figure(2); clf(2);
 [x,u] = solveMe(L,N,diagonal_terms,B_terms,4);
 plot(x,u);
 drawnow;
+saveas(2,'images/HW6_2b.png');
 
 wait = input("Press Enter to Exit.");
