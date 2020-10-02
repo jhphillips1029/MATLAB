@@ -142,4 +142,7 @@ ylabel('y');
 set(gca,'Fontsize',20);
 drawnow;
 
+saveas(1,"images/WS16_a.png");
+saveas(2,"images/WS16_b.png");
+
 wait = input("HI");
