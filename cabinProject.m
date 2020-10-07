@@ -5,20 +5,25 @@
 % Q3 = k3(T2-Tout)
 % Q2 = k2(T1-T2+5)
 
-length_of_day = 1440; %min
+length_of_day = 60*60*24; %sec
 
 Tout = @(t) -10*sin(2*pi*t/length_of_day);
 T1_0 = 5;
 T2_0 = 7;
 
-Q_in = 2500;   % Variable (0-2500)
+wout = 250;
+w1 = 500;
+w2 = 800;
+static = 950;
+forecast = 2 * length_of_day/24;
+Q_in = @(t,T1,T2) static + heaviside(-Tout(t+forecast)) * (wout*heaviside(-Tout(t)) + w1*heaviside(20-T1) + w2*heaviside(20-T2)); % Variable (0-2500)
 A_in = 0.5;
 
 rho_air = 1.225;
 C_air = 1005;
 
 k1 = 0.2;
-k2 = 1;   % Variable (1-10)
+k2 = 7.5;   % Variable (1-10)
 k3 = 0.5;
 
 L = 5;
@@ -36,11 +41,13 @@ Lt = 2*length_of_day;
 N = 1000;   % Variable (any)
 dt = Lt/N;
 
-f1 = @(t,T1,T2) sum([-A1*k1*(T1-Tout(t)),-A2*k2*(T1-T2+5),A_in*Q_in])/(C_air*rho_air*V1);
+f1 = @(t,T1,T2) sum([-A1*k1*(T1-Tout(t)),-A2*k2*(T1-T2+5),A_in*Q_in(t,T1,T2)])/(C_air*rho_air*V1);
 f2 = @(t,T1,T2) sum([A2*k2*(T1-T2+5),-A3*k3*(T2-Tout(t))])/(C_air*rho_air*V2);
 
-T1 = zeros(1,N)+T1_0;
-T2 = zeros(1,N)+T2_0;
+T1(1) = T1_0;
+T2(1) = T2_0;
+Text(1) = Tout(0);
+Qstove(1) = 0;
 t(1) = 0;
 
 for i=1:N
@@ -57,12 +64,19 @@ for i=1:N
 	T2(i+1) = T2(i) + 1/6*(k1+2*k2+2*k3+k4)*dt;
 	
 	t(i+1) = t(i)+dt;
+	Qstove(i+1) = Q_in(t(i+1),T1(i+1),T2(i+1));
+	Text(i+1) = Tout(t(i+1));
 end
 
+clf(gcf);
 plot(t,T1,"DisplayName","T1");
 hold on;
 plot(t,T2,"DisplayName","T2");
+plot(t,Text,"DisplayName","Tout");
 legend;
 drawnow;
+hold off;
 
-wait = input("Press Enter to Exit.");
+disp(max(Qstove));
+
+% wait = input("Press Enter to Exit.");
