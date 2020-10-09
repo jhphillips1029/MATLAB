@@ -1,3 +1,7 @@
+% Joshua H. Phillips
+% Bradley J. Harvey
+% Joseph R. Stangl
+
 % Cabin Project
 clear; clc;
 
