@@ -1,4 +1,5 @@
 % Cabin Project
+clear; clc;
 
 % Given
 % Q1 = k1(T1-Tout)
@@ -49,6 +50,9 @@ T2(1) = T2_0;
 Text(1) = Tout(0);
 Qstove(1) = 0;
 t(1) = 0;
+Q1(1) = A1*k1*(T1(1)-Tout(t(1)));
+Q2(1) = A2*k2*(T1(1)-T2(1)+5);
+Q3(1) = A3*k3*(T2(1)-Tout(t(1)));
 
 for i=1:N
 	k1 = f1(t(i),T1(i),T2(i));
@@ -64,19 +68,26 @@ for i=1:N
 	T2(i+1) = T2(i) + 1/6*(k1+2*k2+2*k3+k4)*dt;
 	
 	t(i+1) = t(i)+dt;
+	
 	Qstove(i+1) = Q_in(t(i+1),T1(i+1),T2(i+1));
 	Text(i+1) = Tout(t(i+1));
+	Q1(i+1) = A1*k1*(T1(i+1)-Tout(t(i+1)));
+	Q2(i+1) = A2*k2*(T1(i+1)-T2(i+1)+5);
+	Q3(i+1) = A3*k3*(T2(i+1)-Tout(t(i+1)));
 end
 
-clf(gcf);
+Terror = sum(abs(T1-20) + abs(T2-20))/(2*N);
+
+figure(1); clf(1);
 plot(t,T1,"DisplayName","T1");
 hold on;
 plot(t,T2,"DisplayName","T2");
 plot(t,Text,"DisplayName","Tout");
+hold off;
 legend;
 drawnow;
-hold off;
 
 disp(max(Qstove));
+fprintf("T_error = %5.5f\n",Terror);
 
 % wait = input("Press Enter to Exit.");
