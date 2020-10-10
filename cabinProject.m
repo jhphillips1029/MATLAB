@@ -28,7 +28,7 @@ rho_air = 1.225;
 C_air = 1005;
 
 k1 = 0.2;
-k2 = 7.5;   % Variable (1-10)
+k2 = 4;   % Variable (1-10)
 k3 = 0.5;
 
 L = 5;
@@ -88,8 +88,13 @@ hold on;
 plot(t,T2,"DisplayName","T2");
 plot(t,Text,"DisplayName","Tout");
 hold off;
+xlabel("Time (s)");
+ylabel("Temperature (C)");
+ttl_str = strcat("Cabin Temperature over Two Days (T Error = ",num2str(Terror)," C)");
+title(ttl_str);
 legend;
 drawnow;
+%saveas(1,"images/cabinProject_BstSnrio.png");
 
 disp(max(Qstove));
 fprintf("T_error = %5.5f\n",Terror);
